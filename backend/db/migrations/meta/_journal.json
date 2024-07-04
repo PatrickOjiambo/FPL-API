@@ -8,6 +8,20 @@
       "when": 1720029269341,
       "tag": "0000_rare_warbird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1720078143162,
+      "tag": "0001_cute_clea",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720078263335,
+      "tag": "0002_curly_ulik",
+      "breakpoints": true
     }
   ]
 }

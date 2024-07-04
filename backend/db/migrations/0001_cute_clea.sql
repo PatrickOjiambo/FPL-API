@@ -1,0 +1,1 @@
+ALTER TABLE "players" ADD COLUMN "player_position" text NOT NULL;
