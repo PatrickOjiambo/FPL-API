@@ -5,13 +5,14 @@ export const users = pgTable('users', {
     username: text("username").notNull().unique(),
     email: text("email").notNull().unique(),
     password: text("password").notNull(),
-    total_points: integer("points").notNull(),
-    team_name: text("team_name").notNull(),
+    total_points: integer("points"),
+
 }
 )
 export const user_teams = pgTable('user_teams', {
     team_id: serial("team_id").notNull().primaryKey(),
     user_id: integer("user_id").notNull().references(() => users.user_id),
+    team_name: text("team_name").notNull(),
 })
 export const team_players = pgTable('team_players', {
     id: serial("id").notNull().primaryKey(),
