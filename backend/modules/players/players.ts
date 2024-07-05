@@ -50,3 +50,5 @@ class Players {
         }
     }
 }
+const player = new Players();
+export default player;
