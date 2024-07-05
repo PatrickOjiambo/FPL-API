@@ -1,4 +1,4 @@
-import { pgTable, integer, text, AnyPgColumn, serial, unique } from "drizzle-orm/pg-core";
+import { pgTable, integer, text, AnyPgColumn, serial, unique, doublePrecision } from "drizzle-orm/pg-core";
 
 export const teams = pgTable('teams', {
     id: serial("id").notNull().primaryKey(),
@@ -14,6 +14,7 @@ export const players = pgTable('players', {
     team_id: integer("team_id").notNull().references(() => teams.id),
     total_points: integer("total_points").notNull(),
     player_position: text("player_position", { enum: ["goalkeeper", "defender", "midefielder", "forward"] }).notNull(),
+    player_cost: doublePrecision("player_cost").notNull(),
 
 })
 
