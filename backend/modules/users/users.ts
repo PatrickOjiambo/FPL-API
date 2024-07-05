@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { users  } from "../../db/schema";
+import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
 import db from "../../db";
 import bcrypt from "bcrypt";
@@ -8,7 +8,12 @@ const dataSchema = z.object({
     password: z.string(),
     username: z.string()
 });
+const loginSchema = z.object({
+    email: z.string().email(),
+    password: z.string()
+});
 type dSchema = z.infer<typeof dataSchema>;
+type lSchema = z.infer<typeof loginSchema>;
 class User {
     constructor() { }
     async create(signup_data: dSchema) {
@@ -29,8 +34,25 @@ class User {
                 username: name,
                 password: hashed_password,
                 email: email
+            }).returning({ user_id: users.user_id })
+        })
+        return user;
+    }
+    async login(login_data: lSchema) {
+        const [email, password] = [login_data.email, login_data.password];
+        const user = await db.transaction(async (txn) => {
+            return await txn.query.users.findFirst({
+                where: (fields, { eq }) => eq(fields.email, email)
             })
         })
+        if (!user) {
+            throw new Error("User not found");
+        }
+        const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+        if (!isPasswordCorrect) {
+            throw new Error("Invalid password");
+        }
+        return user.user_id;
     }
 }
 
